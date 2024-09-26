@@ -1,31 +1,22 @@
+#include <iostream>
 #include <raylib.h>
 
+using namespace std;
+
 int main() {
-  // Initialize the window
-  const int screenWidth = 800;
-  const int screenHeight = 450;
 
-  InitWindow(screenWidth, screenHeight, "Hello, World! - Raylib");
+  const int width = 1290;
+  const int height = 800;
 
-  // Set the frame rate
+  InitWindow(width, height, "My Pong Game!");
   SetTargetFPS(60);
 
-  // Main game loop
-  while (!WindowShouldClose()) // Detect window close button or ESC key
-  {
-    // Start drawing
+  while (WindowShouldClose() == false) {
     BeginDrawing();
 
-    ClearBackground(RAYWHITE); // Set the background color to white
-
-    // Draw the "Hello, World!" text
-    DrawText("Hello, World!", 350, 200, 20, DARKGRAY);
-
-    // End drawing
     EndDrawing();
   }
 
-  // Close window and OpenGL context
   CloseWindow();
 
   return 0;
