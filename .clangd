@@ -1,0 +1,8 @@
+CompileFlags:
+  Add:
+    - -I/./include   # Include path for raylib and other libraries
+    - -L/./lib       # Library path for linking
+
+# Specify the use of compile_commands.json if available
+CompileCommands: build/compile_commands.json
+
