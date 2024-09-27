@@ -39,6 +39,11 @@ public:
       y += speed;
     }
 
+    LimitMovement();
+  }
+
+protected:
+  void LimitMovement() {
     if (y <= 0) {
       y = 0;
     }
@@ -48,8 +53,23 @@ public:
   }
 };
 
+class CpuPaddle : public Paddle {
+public:
+  void Update(float ball_y) {
+    if (y + height / 2.0 > ball_y) {
+      y -= speed;
+    }
+    if (y + height / 2.0 <= ball_y) {
+      y += speed;
+    }
+
+    LimitMovement();
+  }
+};
+
 Ball ball;
 Paddle player;
+CpuPaddle cpu;
 
 int main() {
 
@@ -69,18 +89,39 @@ int main() {
   player.width = 25;
   player.x = screen_width - 35;
   player.y = screen_height / 2.0 - 60;
-  player.speed = 7;
+  player.speed = 6;
+
+  cpu.height = 120;
+  cpu.width = 25;
+  cpu.x = 10;
+  cpu.y = screen_height / 2.0 - 60;
+  cpu.speed = 6;
 
   while (WindowShouldClose() == false) {
     BeginDrawing();
 
     ball.Update();
     player.Update();
+    cpu.Update(ball.y);
 
+    if (CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius,
+                                Rectangle{player.x, player.y,
+                                          static_cast<float>(player.width),
+                                          static_cast<float>(player.height)})) {
+      ball.speed_x -= 1;
+    }
+
+    if (CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius,
+                                Rectangle{cpu.x, cpu.y,
+                                          static_cast<float>(cpu.width),
+                                          static_cast<float>(cpu.height)})) {
+      ball.speed_x -= 1;
+    }
     ClearBackground(BLACK);
     DrawLine(screen_width / 2, 0, screen_width / 2, screen_height, WHITE);
+
     ball.Draw();
-    DrawRectangle(10, (screen_height / 2 - 60), 25, 120, WHITE);
+    cpu.Draw();
     player.Draw();
 
     EndDrawing();
