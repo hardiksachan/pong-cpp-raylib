@@ -1,5 +1,10 @@
 #include <raylib.h>
 
+Color Green = Color{38, 185, 154, 255};
+Color Dark_Green = Color{20, 160, 133, 255};
+Color Light_Green = Color{129, 204, 184, 255};
+Color Yellow = Color{243, 213, 91, 255};
+
 int cpu_score = 0;
 int player_score = 0;
 
@@ -9,7 +14,7 @@ public:
   int speed_x, speed_y;
   int radius;
 
-  void Draw() { DrawCircle(x, y, radius, WHITE); }
+  void Draw() { DrawCircle(x, y, radius, Yellow); }
   void Update() {
     x += speed_x;
     y += speed_y;
@@ -45,7 +50,9 @@ public:
   int speed;
   float height, width;
 
-  void Draw() { DrawRectangle(x, y, width, height, WHITE); }
+  void Draw() {
+    DrawRectangleRounded(Rectangle{x, y, width, height}, 0.8, 0, WHITE);
+  }
 
   void Update() {
     if (IsKeyDown(KEY_UP)) {
@@ -131,7 +138,11 @@ int main() {
             Rectangle{cpu.x, cpu.y, cpu.width, cpu.height})) {
       ball.speed_x *= -1;
     }
-    ClearBackground(BLACK);
+
+    ClearBackground(Dark_Green);
+    DrawRectangle(screen_width / 2, 0, screen_width / 2.0, screen_height,
+                  Green);
+    DrawCircle(screen_width / 2, screen_height / 2, 150, Light_Green);
     DrawLine(screen_width / 2, 0, screen_width / 2, screen_height, WHITE);
 
     ball.Draw();
